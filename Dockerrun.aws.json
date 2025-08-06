@@ -12,15 +12,15 @@
   "Environment": [
     {
       "Name": "SPRING_DATASOURCE_URL",
-      "Value": "replace-at-runtime"
+      "Value": "aws-demo-project-mysql-db.clsuay0oo2ev.ap-south-1.rds.amazonaws.com"
     },
     {
       "Name": "SPRING_DATASOURCE_USERNAME",
-      "Value": "replace-at-runtime"
+      "Value": "admin"
     },
     {
       "Name": "SPRING_DATASOURCE_PASSWORD",
-      "Value": "replace-at-runtime"
+      "Value": "admin123"
     }
   ]
 }
