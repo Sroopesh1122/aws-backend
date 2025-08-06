@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "yourdockerhubusername/yourimagename:latest",
+    "Name": "my-springboot-app:latest",
     "Update": "true"
   },
   "Ports": [
