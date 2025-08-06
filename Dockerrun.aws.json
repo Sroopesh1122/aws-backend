@@ -1,5 +1,5 @@
 {
-  "AWSEBDockerrunVersion": "1",
+  "AWSEBDockerrunVersion": 1,
   "Image": {
     "Name": "my-springboot-app:latest",
     "Update": "true"
