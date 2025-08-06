@@ -1,0 +1,77 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# Java
+target/
+*.class
+*.jar
+*.war
+*.iml
+
+# Logs
+*.log
+logs/
+*.out
+
+# Environment variables
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.crash
+*.tfplan
+
+# Node (if frontend also present)
+node_modules/
+dist/
+build/
+
+# Docker
+**/Dockerfile.build
+**/.dockerignore
+
+# GitHub Actions
+.github/workflows/*.secret
+

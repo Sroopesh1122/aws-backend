@@ -1,0 +1,26 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "yourdockerhubusername/yourimagename:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 8080
+    }
+  ],
+  "Environment": [
+    {
+      "Name": "SPRING_DATASOURCE_URL",
+      "Value": "replace-at-runtime"
+    },
+    {
+      "Name": "SPRING_DATASOURCE_USERNAME",
+      "Value": "replace-at-runtime"
+    },
+    {
+      "Name": "SPRING_DATASOURCE_PASSWORD",
+      "Value": "replace-at-runtime"
+    }
+  ]
+}

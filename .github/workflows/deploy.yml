@@ -1,0 +1,83 @@
+name: Deploy Spring Boot API to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: ap-south-1
+  APPLICATION_NAME: aws-demo-project-api
+  ENVIRONMENT_NAME: aws-demo-project-api-env
+  S3_BUCKET_NAME: aws-demo-project-api-deploy-bucket
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Generate Dockerrun.aws.json
+        run: |
+          echo '{
+            "AWSEBDockerrunVersion": 1,
+            "Image": {
+              "Name": "${{ secrets.DOCKER_IMAGE }}",
+              "Update": "true"
+            },
+            "Ports": [
+              {
+                "ContainerPort": "8080"
+              }
+            ],
+            "Environment": [
+              {
+                "Name": "SPRING_DATASOURCE_URL",
+                "Value": "${{ secrets.SPRING_DATASOURCE_URL }}"
+              },
+              {
+                "Name": "SPRING_DATASOURCE_USERNAME",
+                "Value": "${{ secrets.SPRING_DATASOURCE_USERNAME }}"
+              },
+              {
+                "Name": "SPRING_DATASOURCE_PASSWORD",
+                "Value": "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+              }
+            ]
+          }' > Dockerrun.aws.json
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload to S3
+        run: |
+          zip deploy.zip Dockerrun.aws.json
+          aws s3 cp deploy.zip s3://${{ env.S3_BUCKET_NAME }}/deploy.zip
+
+      - name: Create new EB application version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name ${{ env.APPLICATION_NAME }} \
+            --version-label "ver-${{ github.run_number }}" \
+            --source-bundle S3Bucket=${{ env.S3_BUCKET_NAME }},S3Key=deploy.zip
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name ${{ env.ENVIRONMENT_NAME }} \
+            --version-label "ver-${{ github.run_number }}"
