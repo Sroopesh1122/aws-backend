@@ -2,6 +2,7 @@ variable "region" {
   default = "ap-south-1"
 }
 
+
 variable "project_name" {
   default = "aws-demo-project"
 }
@@ -30,4 +31,8 @@ variable "docker_image" {
   description = "Docker image name for the application"
   type        = string
   default     = "my-springboot-app:latest"
+}
+
+variable "s3_bucket_name" {
+  default = "aws-demo-project-api-deploy-bucket"
 }

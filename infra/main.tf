@@ -5,6 +5,19 @@ provider "aws" {
 }
 
 # ----------------------------
+# S3 Bucket for GitHub Actions deployment zip
+# ----------------------------
+resource "aws_s3_bucket" "deploy_bucket" {
+  bucket        = var.s3_bucket_name
+  force_destroy = true
+
+  tags = {
+    Name        = "Beanstalk Deploy Bucket"
+    Environment = "prod"
+  }
+}
+
+# ----------------------------
 # Elastic Beanstalk Application
 # ----------------------------
 resource "aws_elastic_beanstalk_application" "app" {
